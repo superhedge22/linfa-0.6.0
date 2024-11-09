@@ -1,0 +1,25 @@
+on: [push, pull_request]
+
+name: Run iai Benches
+
+jobs:
+  testing:
+    name: benching
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+
+      - name: Install toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+
+      - name: Run cargo bench iai
+        uses: actions-rs/cargo@v1
+        with:
+          command: bench
+          args: iai --all
